@@ -1,0 +1,11 @@
+<!--<ul>
+  <li class="text" *ngFor="let item of items | async">
+    {{item.$value}}
+  </li>
+</ul>-->
+<label >{{error}}</label>
+<input type="email" [(ngModel)]="email"/>
+<input type="password" [(ngModel)]="password"/>
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
+<button (click)="fbLogin()">FB Login</button>
