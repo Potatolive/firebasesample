@@ -1,0 +1,7 @@
+<span>{{errorMessage | async}}</span>
+<ul>
+  <li *ngFor="let feed of (feeds | async)">
+      <label>name: </label>
+      <input [(ngModel)]="feed.name" placeholder="name"/>
+  </li>
+</ul>

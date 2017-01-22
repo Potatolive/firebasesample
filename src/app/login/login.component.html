@@ -1,0 +1,11 @@
+<label >{{error}}</label>
+<div *ngIf="this.user == null">
+<input type="email" [(ngModel)]="email"/>
+<input type="password" [(ngModel)]="password"/>
+<button (click)="register()">Register</button>
+<button (click)="login()">Login</button>
+</div>
+<button (click)="logout()" *ngIf="this.user != null">Logout</button>
+<a routerLink="/feeds" *ngIf="this.user != null">feeds</a>
+
+<!--<button (click)="fbLogin()">FB Login</button>-->

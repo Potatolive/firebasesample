@@ -4,6 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { LoginComponent } from './login/login.component';
+import { RouterModule, Routes } from '@angular/router';
+import { FeedsComponent } from './feeds/feeds.component';
+import {AuthGuard} from './helpers/auth.helper';
+import { AuthStateProvider } from './services/auth.service';
+import { AlertService } from './services/alert.service';
+import { FeedService } from './services/feed.service';
+
+const appRoutes: Routes = [
+  { path: 'feeds', component: FeedsComponent , canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent},
+  { path: '', component: LoginComponent}  
+];
 
 // Must export the config
 export const firebaseConfig = {
@@ -21,15 +34,23 @@ const firebaseAuthConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    FeedsComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AuthStateProvider,
+    AlertService,
+    FeedService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
