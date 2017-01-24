@@ -10,7 +10,10 @@ import { FeedsComponent } from './feeds/feeds.component';
 import {AuthGuard} from './helpers/auth.helper';
 import { AuthStateProvider } from './services/auth.service';
 import { AlertService } from './services/alert.service';
+import { ApiService } from './services/api.service';
+import { FbService } from './services/fb.service';
 import { FeedService } from './services/feed.service';
+import { FeedComponent } from './feed/feed.component';
 
 const appRoutes: Routes = [
   { path: 'feeds', component: FeedsComponent , canActivate: [AuthGuard] },
@@ -36,7 +39,8 @@ const firebaseAuthConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    FeedsComponent
+    FeedsComponent,
+    FeedComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -49,7 +53,9 @@ const firebaseAuthConfig = {
     AuthGuard,
     AuthStateProvider,
     AlertService,
-    FeedService
+    FeedService,
+    ApiService,
+    FbService
   ],
   bootstrap: [AppComponent]
 })

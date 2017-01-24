@@ -13,8 +13,8 @@ export class FeedService extends ApiService {
   
   constructor(
     http : Http, 
-    authStateProvider: AuthStateProvider, 
-    private alertService: AlertService) 
+    authStateProvider: AuthStateProvider,
+    private alertService: AlertService)
   {
     super(http, authStateProvider);
   }
@@ -27,11 +27,15 @@ export class FeedService extends ApiService {
             subscriber.next(data);
           },
           err => {
-            this.alertService.rasieError(JSON.parse(err._body).message);
+            this.alertService.rasieError(err);
             subscriber.next(null);
           }
         );
       }
     );
+  }
+
+  updateFeed(feed : Feed) : Observable<Feed> {
+    return this.api.putFeedById(this.token, (feed as any)._id, feed, 'dummyToken');
   }
 }

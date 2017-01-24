@@ -10,8 +10,6 @@ import {
    
 } from 'angularfire2';
 
-// declare const FB:any;
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,13 +28,6 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private authStateProvider: AuthStateProvider
     ) {
-    // FB.init({
-    //     appId      : '337330989724619',
-    //     cookie     : true,  // enable cookies to allow the server to access
-    //                         // the session
-    //     xfbml      : true,  // parse social plugins on this page
-    //     version    : 'v2.5' // use graph api version 2.5
-    // });
   }
 
   ngOnInit() {
