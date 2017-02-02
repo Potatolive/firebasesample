@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:10010'
+  // api: 'http://localhost:10010'
+  api: 'https://vjfgn8hm1b.execute-api.ap-southeast-1.amazonaws.com/latest'
 };

@@ -1,11 +1,12 @@
-<label>Feed Name</label>
-<input [(ngModel)]="feed.feedName" type="text">
-<select>
-  <option *ngFor="let page of pages" value={{page.name}}>
-    {{page.name}}
-  </option>
-</select>
-<button (click)="update()" *ngIf="getId()">Update</button>
-<button (click)="fbLogin()" *ngIf="!getId()">Create facebook feed</button>
-{{feed.feedStatus}}
-{{feed.feedType}}
+<div>{{message}}</div>
+<!--<span *ngIf="mode === 'UPDATE'">-->
+  <button (click)="update()">Update</button>
+  <button (click)="delete()">Delete</button>
+  <button (click)="scrap()">Scrap</button>
+  <label>{{feed.feedName}}</label>
+<!--</span>-->
+<!--<span *ngIf="mode === 'UPDATE' || mode === 'CREATE'">-->
+  <input type="text" [(ngModel)]="feed.hashTag" placeholder="Hashtag to filter">
+<!--</span>-->
+{{feed.feedName}}
+<a routerLink="/posts/{{feed._id}}">posts</a>

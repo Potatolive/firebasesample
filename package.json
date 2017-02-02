@@ -9,7 +9,8 @@
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "genStub": "rm -rf ./stub/socialmessage-api && swagger-codegen generate -i http://localhost:10010/api-docs -l typescript-angular2 -o ./stub/socialmessage-api"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
-<span *ngIf="loading">Loading ... </span>
-{{errorMessage | async}}
-<app-feed [feed]="newFeed"></app-feed>
-<div *ngFor="let feed of (feeds | async)">
+<app-fbfeed (createFeed)="addFeed($event)"></app-fbfeed>
+<span *ngIf="feedCrudModel.processing.value">Loading ... </span>
+{{feedCrudModel.errorMessage | async}}
+<div *ngFor="let feed of (feedCrudModel.items | async)">
     <app-feed [feed]="feed"></app-feed>
 </div>

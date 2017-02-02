@@ -34,6 +34,8 @@ export interface Feed {
 
     feedName?: string;
 
+    feedHandle?: string;
+
     v?: string;
 
     feedType?: Feed.FeedTypeEnum;

@@ -11,6 +11,10 @@ export class FbService {
     return this.accessToken;
   }
 
+  public set AccessToken(value: string)  {
+    this.accessToken = value;
+  }
+
   constructor() {
     
   }
@@ -25,12 +29,13 @@ export class FbService {
     });
   }
 
-  login() : Observable<Boolean> {
-    return new Observable<Boolean>(
-      (subscriber: Subscriber<Boolean>) => {
+  login() : Observable<string> {
+    return new Observable<string>(
+      (subscriber: Subscriber<string>) => {
         FB.login(
           function(response) {
-            subscriber.next(true);  
+            console.log(response);
+            subscriber.next(response.authResponse.accessToken);  
           }, 
           {scope: 'pages_show_list'}
         );

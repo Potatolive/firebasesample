@@ -1,8 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Feed } from '../../../stub/socialmessage-api/model/Feed';
-import { ApiService } from '../services/api.service';
-import { FbService } from '../services/fb.service';
 import { ErrorHelper } from '../helpers/error.helper';
+import { FeedApi } from '../../../stub/socialmessage-api/api/FeedApi';
+import { SecureCrudService } from '../services/secure.crud.service';
+import { Http } from '@angular/http';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-feed',
@@ -10,62 +13,38 @@ import { ErrorHelper } from '../helpers/error.helper';
   styleUrls: ['./feed.component.css']
 })
 export class FeedComponent implements OnInit {
-  @Input() feed: Feed;
-  message: string;
+  @Input() feed: Feed = {};
   pages: any[];
-
-  constructor(private apiService : ApiService, private fbService: FbService) {
-    
-     
+  
+  constructor(
+    http: Http,
+    private _feedService: SecureCrudService<Feed, FeedApi> //Operates on Feeds in a secure way using FeedApi
+  ) {
+    this._feedService.init(new FeedApi(http, environment.api));
   }
 
   ngOnInit() {
     
   }
 
-  fbLogin() {
-    this.fbService.init();
-    this.fbService.login().subscribe(
-      data => {
-        this.fbService.getPages().subscribe(
-          (data : any) => {
-            this.pages = data.data;
-            console.log(data.data);
-          }
-        );
-      }
-    );
-  }
-
   update() {
-    console.log(this.feed);
-    this.apiService.Api.putFeedById(this.apiService.Token, this.getId(), this.feed).subscribe(
-      data => {
-        this.message = data.message;
-      },
-      err => {
-        this.message = ErrorHelper.getErrorMessage(err);
-      },
-      () => {
-        
-      });
+    this._feedService.update(this.feed);
   }
 
   create() {
-    console.log(this.feed);
-    this.apiService.Api.postFeed(this.apiService.Token, this.feed).subscribe(
-      data => {
-        this.feed = data;
-      },
-      err => {
-        this.message = ErrorHelper.getErrorMessage(err);
-      },
-      () => {
-        
-      });
+    this._feedService.create(this.feed);
   }
 
-  getId() : any {
-    return (this.feed as any)._id;
+  delete() {
+    this._feedService.delete(this.feed);
+  }
+
+  scrap() {
+    let id = this.feed ? (this.feed as any)._id : undefined;
+    this._feedService.Api.scrapNewPostsFromSource(id, this._feedService.Token,{message: "Sample"}).subscribe(
+      data => {
+        console.log
+      }
+    );
   }
 }

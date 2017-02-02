@@ -1,0 +1,8 @@
+<div>{{message}}</div>
+<button (click)="fbLogin()" *ngIf="!pages">Create facebook feed</button>
+<button (click)="create()" *ngIf="pages && pages.length > 0">Create</button>
+<input type="text" [(ngModel)]="hashTag" placeholder="Hashtag to filter" *ngIf="pages && pages.length > 0">
+<select required [(ngModel)]="selectedPage" *ngIf="pages">
+  <option *ngFor="let page of pages" [ngValue]="page" 
+      [selected]="selectedPage.id === page.id">{{page.name}}</option>
+</select>

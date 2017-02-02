@@ -9,14 +9,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { FeedsComponent } from './feeds/feeds.component';
 import {AuthGuard} from './helpers/auth.helper';
 import { AuthStateProvider } from './services/auth.service';
-import { AlertService } from './services/alert.service';
-import { ApiService } from './services/api.service';
 import { FbService } from './services/fb.service';
-import { FeedService } from './services/feed.service';
 import { FeedComponent } from './feed/feed.component';
+import { FbfeedComponent } from './fbfeed/fbfeed.component';
+import { FeedApi } from '../../stub/socialmessage-api/api/FeedApi';
+import { SecureCrudService } from './services/secure.crud.service';
+import { PostsComponent } from './posts/posts.component';
+import { PostComponent } from './post/post.component';
 
 const appRoutes: Routes = [
   { path: 'feeds', component: FeedsComponent , canActivate: [AuthGuard] },
+  { path: 'posts/:id', component: PostsComponent , canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
   { path: '', component: LoginComponent}  
 ];
@@ -40,7 +43,10 @@ const firebaseAuthConfig = {
     AppComponent,
     LoginComponent,
     FeedsComponent,
-    FeedComponent
+    FeedComponent,
+    FbfeedComponent,
+    PostsComponent,
+    PostComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -52,10 +58,9 @@ const firebaseAuthConfig = {
   providers: [
     AuthGuard,
     AuthStateProvider,
-    AlertService,
-    FeedService,
-    ApiService,
-    FbService
+    FbService,
+    FeedApi,
+    SecureCrudService
   ],
   bootstrap: [AppComponent]
 })

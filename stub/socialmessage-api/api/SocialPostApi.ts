@@ -33,7 +33,7 @@ import 'rxjs/Rx';
 'use strict';
 
 @Injectable()
-export class DefaultApi {
+export class SocialPostApi {
     protected basePath = 'http://localhost:10010/';
     public defaultHeaders : Headers = new Headers();
 
@@ -41,44 +41,6 @@ export class DefaultApi {
         if (basePath) {
             this.basePath = basePath;
         }
-    }
-
-    /**
-     * 
-     * Deletes the feed for the provided id
-     * @param idToken 
-     * @param id Id of the feed to be deleted
-     */
-    public deleteFeedById (idToken: string, id: string, extraHttpRequestParams?: any ) : Observable<models.GeneralResponse> {
-        const path = this.basePath + '/feed/{id}'
-            .replace('{' + 'id' + '}', String(id));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'idToken' is not null or undefined
-        if (idToken === null || idToken === undefined) {
-            throw new Error('Required parameter idToken was null or undefined when calling deleteFeedById.');
-        }
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling deleteFeedById.');
-        }
-            headerParams.set('idToken', String(idToken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
     }
 
     /**
@@ -105,76 +67,6 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * Returns the feed for the supplied id to the caller
-     * @param idToken 
-     * @param id Id of the feed to be returned
-     */
-    public getFeedById (idToken: string, id: string, extraHttpRequestParams?: any ) : Observable<Array<models.Feed>> {
-        const path = this.basePath + '/feed/{id}'
-            .replace('{' + 'id' + '}', String(id));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'idToken' is not null or undefined
-        if (idToken === null || idToken === undefined) {
-            throw new Error('Required parameter idToken was null or undefined when calling getFeedById.');
-        }
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getFeedById.');
-        }
-            headerParams.set('idToken', String(idToken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * Returns list of feeds to caller
-     * @param idToken 
-     */
-    public getFeeds (idToken: string, extraHttpRequestParams?: any ) : Observable<Array<models.Feed>> {
-        const path = this.basePath + '/feeds';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'idToken' is not null or undefined
-        if (idToken === null || idToken === undefined) {
-            throw new Error('Required parameter idToken was null or undefined when calling getFeeds.');
-        }
-            headerParams.set('idToken', String(idToken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
             headers: headerParams,
             search: queryParameters
         };
@@ -268,47 +160,6 @@ export class DefaultApi {
     /**
      * 
      * Create a feed
-     * @param idtoken 
-     * @param feed 
-     * @param facebookaccesstoken 
-     */
-    public postFeed (idtoken: string, feed: models.Feed, facebookaccesstoken?: string, extraHttpRequestParams?: any ) : Observable<models.Feed> {
-        const path = this.basePath + '/feeds';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'idtoken' is not null or undefined
-        if (idtoken === null || idtoken === undefined) {
-            throw new Error('Required parameter idtoken was null or undefined when calling postFeed.');
-        }
-        // verify required parameter 'feed' is not null or undefined
-        if (feed === null || feed === undefined) {
-            throw new Error('Required parameter feed was null or undefined when calling postFeed.');
-        }
-            headerParams.set('idtoken', String(idtoken));
-
-            headerParams.set('facebookaccesstoken', String(facebookaccesstoken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(feed);
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * Create a feed
      * @param id 
      * @param idtoken 
      * @param socialPosts 
@@ -355,53 +206,6 @@ export class DefaultApi {
      * Update an existing feed
      * @param idToken 
      * @param id 
-     * @param feed 
-     * @param facebookaccesstoken 
-     */
-    public putFeedById (idToken: string, id: string, feed: models.Feed, facebookaccesstoken?: string, extraHttpRequestParams?: any ) : Observable<models.PutResponse> {
-        const path = this.basePath + '/feed/{id}'
-            .replace('{' + 'id' + '}', String(id));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'idToken' is not null or undefined
-        if (idToken === null || idToken === undefined) {
-            throw new Error('Required parameter idToken was null or undefined when calling putFeedById.');
-        }
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling putFeedById.');
-        }
-        // verify required parameter 'feed' is not null or undefined
-        if (feed === null || feed === undefined) {
-            throw new Error('Required parameter feed was null or undefined when calling putFeedById.');
-        }
-            headerParams.set('facebookaccesstoken', String(facebookaccesstoken));
-
-            headerParams.set('idToken', String(idToken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'PUT',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(feed);
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * Update an existing feed
-     * @param idToken 
-     * @param id 
      * @param socialPost 
      */
     public putSocialPostById (idToken: string, id: string, socialPost: models.SocialPost, extraHttpRequestParams?: any ) : Observable<models.PutResponse> {
@@ -430,46 +234,6 @@ export class DefaultApi {
             search: queryParameters
         };
         requestOptions.body = JSON.stringify(socialPost);
-
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
-    }
-
-    /**
-     * 
-     * Create a feed
-     * @param id 
-     * @param idtoken 
-     * @param contentText 
-     */
-    public scrapNewPostsFromSource (id: string, idtoken: string, contentText?: models.GeneralResponse, extraHttpRequestParams?: any ) : Observable<models.GeneralResponse> {
-        const path = this.basePath + '/feed/{id}/scrapNewPostsFromSource'
-            .replace('{' + 'id' + '}', String(id));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling scrapNewPostsFromSource.');
-        }
-        // verify required parameter 'idtoken' is not null or undefined
-        if (idtoken === null || idtoken === undefined) {
-            throw new Error('Required parameter idtoken was null or undefined when calling scrapNewPostsFromSource.');
-        }
-            headerParams.set('idtoken', String(idtoken));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(contentText);
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {

@@ -1,1 +1,2 @@
-export * from './DefaultApi';
+export * from './FeedApi';
+export * from './SocialPostApi';

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FeedService } from '../services/feed.service';
-import { ApiService } from '../services/api.service';
-import { AlertService } from '../services/alert.service';
 import { Feed } from '../../../stub/socialmessage-api/model/Feed';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { FeedApi } from '../../../stub/socialmessage-api/api/FeedApi';
+import { SecureCrudService } from '../services/secure.crud.service';
+import { Http } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-feeds',
@@ -11,33 +11,26 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
   styleUrls: ['./feeds.component.css']
 })
 export class FeedsComponent implements OnInit {
-  feeds: Subject<Feed[]> = new BehaviorSubject([]);
-  errorMessage: Subject<string> = new BehaviorSubject('');
-  loading: boolean = true;
-  newFeed: Feed = { };
+  public get feedCrudModel() : SecureCrudService<Feed, FeedApi> {
+    return this._feedCrudModel;
+  }
 
   constructor(
-    private apiService: ApiService, 
-    private alertService: AlertService) {
-    
+    http: Http,
+    private _feedCrudModel: SecureCrudService<Feed, FeedApi>
+    ) {
+    this._feedCrudModel.init(new FeedApi(http, environment.api));
   }
 
   ngOnInit() {
-    this.refreshFeeds();
+    this.refresh();
   }
 
-  refreshFeeds() {
-    this.loading = true;
-    this.apiService.Api.getFeeds(this.apiService.Token).subscribe(
-      data => {
-        this.feeds.next(data);
-      },
-      err => {
-        this.errorMessage.next(AlertService.getErrorMessage(err));
-      },
-      () => {
-        this.loading = false;
-      }
-    );
+  refresh() {
+    this.feedCrudModel.listItems();
+  }
+
+  addFeed(addedFeed: Feed) {
+    this.refresh();
   }
 }
